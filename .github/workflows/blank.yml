@@ -48,8 +48,7 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker-compose build
-          docker-compose up -d
+          docker-compose -f practice/docker-compose.yml up -d
 
       - name: Verify OpenSearch is running
         run: |
