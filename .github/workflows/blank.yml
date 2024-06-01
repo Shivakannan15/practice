@@ -65,8 +65,7 @@ jobs:
           done
 
       - name: Fetch OpenSearch logs for debugging
-        if: failure()
-        run: docker logs opensearch-node1
+        run: docker logs opensearch-node1 || true
 
       - name: Verify OpenSearch Dashboards is running
         run: |
@@ -75,3 +74,6 @@ jobs:
             echo "Waiting for OpenSearch Dashboards to be ready..."
             sleep 5
           done
+
+      - name: Fetch OpenSearch Dashboards logs for debugging
+        run: docker logs opensearch-dashboards || true
