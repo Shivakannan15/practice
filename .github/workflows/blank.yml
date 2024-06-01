@@ -59,16 +59,22 @@ jobs:
       - name: List running Docker containers
         run: docker ps -a
 
-      - name: Verify OpenSearch is running
+      - name: Wait for OpenSearch to be ready with timeout
         run: |
           echo "Waiting for OpenSearch to be ready..."
-          until curl -sSf http://localhost:9200; do
+          SECONDS=0
+          TIMEOUT=120 # Timeout in seconds (2 minutes)
+          while ! curl -sSf http://localhost:9200 && [ $SECONDS -lt $TIMEOUT ]; do
             echo "Waiting for OpenSearch to be ready..."
             sleep 5
           done
+          if [ $SECONDS -ge $TIMEOUT ]; then
+            echo "Timeout reached while waiting for OpenSearch to be ready"
+            exit 1
+          fi
 
       - name: Fetch and print OpenSearch logs for debugging
-        run: docker logs opensearch-node1
+        run: docker logs opensearch-node1 || true
 
       - name: Fetch and print OpenSearch Dashboards logs for debugging
-        run: docker logs opensearch-dashboards
+        run: docker logs opensearch-dashboards || true
