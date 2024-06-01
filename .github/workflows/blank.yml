@@ -62,19 +62,21 @@ jobs:
       - name: Wait for OpenSearch to be ready with timeout
         run: |
           echo "Waiting for OpenSearch to be ready..."
-          SECONDS=0
-          TIMEOUT=120 # Timeout in seconds (2 minutes)
-          while ! curl -sSf http://localhost:9200 && [ $SECONDS -lt $TIMEOUT ]; do
+          timeout=120 # 2 minutes timeout
+          while ! curl -sSf http://localhost:9200 && [ $timeout -gt 0 ]; do
             echo "Waiting for OpenSearch to be ready..."
             sleep 5
+            timeout=$((timeout - 5))
           done
-          if [ $SECONDS -ge $TIMEOUT ]; then
+          if [ $timeout -le 0 ]; then
             echo "Timeout reached while waiting for OpenSearch to be ready"
             exit 1
           fi
 
       - name: Fetch and print OpenSearch logs for debugging
+        if: failure()
         run: docker logs opensearch-node1 || true
 
       - name: Fetch and print OpenSearch Dashboards logs for debugging
+        if: failure()
         run: docker logs opensearch-dashboards || true
