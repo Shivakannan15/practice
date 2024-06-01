@@ -10,7 +10,7 @@ services:
       - bootstrap.memory_lock=true
       - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
       - plugins.security.disabled=true
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Admin123 # Set a strong password here
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Stormhawks@123 # Set a strong password here
       - "thread_pool.write.queue_size=500"
       - "thread_pool.search.queue_size=1000"
     ulimits:
@@ -26,6 +26,8 @@ services:
     ports:
       - "9200:9200"
       - "9600:9600"
+    networks:
+      - opensearch-net
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -35,7 +37,13 @@ services:
       DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
     ports:
       - "5601:5601"
+    networks:
+      - opensearch-net
 
 volumes:
   opensearch-data1:
   opensearch-logs1:
+
+networks:
+  opensearch-net:
+    driver: bridge
