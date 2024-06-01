@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # This allows manual triggering of the workflow
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -44,12 +44,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Set up Docker Compose
-        run: |
-          docker-compose --version
+        run: docker-compose --version
 
-      - name: Build and push Docker images
-        run: |
-          docker-compose -f practice/docker-compose.yml up -d
+      - name: Build and start Docker containers
+        run: docker-compose -f your_directory/docker-compose.yml up -d
 
       - name: Verify OpenSearch is running
         run: |
