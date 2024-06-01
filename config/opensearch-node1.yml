@@ -1,0 +1,24 @@
+cluster.name: opensearch-cluster
+node.name: opensearch-node1
+node.master: true
+node.data: true
+network.host: 0.0.0.0
+http.port: 9200
+discovery.seed_hosts: ["opensearch-node1"]
+cluster.initial_cluster_manager_nodes: ["opensearch-node1"]
+
+# Path to store data
+path.data: /usr/share/opensearch/data
+# Path to store logs
+path.logs: /usr/share/opensearch/logs
+
+# Disable security for development environment
+plugins.security.disabled: true
+
+# Index State Management (ISM) Plugin Settings
+plugins.index_state_management.enabled: true
+plugins.index_state_management.coordinator.sweep_period: 10m
+
+# Optional performance settings
+thread_pool.write.queue_size: 500
+thread_pool.search.queue_size: 1000
