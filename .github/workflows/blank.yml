@@ -58,13 +58,19 @@ jobs:
 
       - name: Verify OpenSearch is running
         run: |
+          echo "Waiting for OpenSearch to be ready..."
           until curl -sSf http://localhost:9200; do
             echo "Waiting for OpenSearch to be ready..."
             sleep 5
           done
 
+      - name: Fetch OpenSearch logs for debugging
+        if: failure()
+        run: docker logs opensearch-node1
+
       - name: Verify OpenSearch Dashboards is running
         run: |
+          echo "Waiting for OpenSearch Dashboards to be ready..."
           until curl -sSf http://localhost:5601; do
             echo "Waiting for OpenSearch Dashboards to be ready..."
             sleep 5
