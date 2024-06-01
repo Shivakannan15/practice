@@ -47,7 +47,7 @@ jobs:
         run: docker-compose --version
 
       - name: Build and start Docker containers
-        run: docker-compose -f your_directory/docker-compose.yml up -d
+        run: docker-compose -f practice/docker-compose.yml up -d
 
       - name: Verify OpenSearch is running
         run: |
