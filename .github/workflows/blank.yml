@@ -65,7 +65,7 @@ jobs:
           done
 
       - name: Fetch OpenSearch logs for debugging
-        run: docker logs opensearch-node1 || true
+        run: docker logs opensearch-node1 > opensearch-node1.log || true
 
       - name: Verify OpenSearch Dashboards is running
         run: |
@@ -76,4 +76,16 @@ jobs:
           done
 
       - name: Fetch OpenSearch Dashboards logs for debugging
-        run: docker logs opensearch-dashboards || true
+        run: docker logs opensearch-dashboards > opensearch-dashboards.log || true
+
+      - name: Upload OpenSearch logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: opensearch-logs
+          path: opensearch-node1.log
+
+      - name: Upload OpenSearch Dashboards logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: opensearch-dashboards-logs
+          path: opensearch-dashboards.log
