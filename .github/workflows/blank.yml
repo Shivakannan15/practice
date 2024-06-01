@@ -56,6 +56,9 @@ jobs:
       - name: Build and start Docker containers
         run: docker-compose -f docker-compose.yml up -d
 
+      - name: List running Docker containers
+        run: docker ps -a
+
       - name: Verify OpenSearch is running
         run: |
           echo "Waiting for OpenSearch to be ready..."
@@ -66,14 +69,6 @@ jobs:
 
       - name: Fetch OpenSearch logs for debugging
         run: docker logs opensearch-node1 > opensearch-node1.log || true
-
-      - name: Verify OpenSearch Dashboards is running
-        run: |
-          echo "Waiting for OpenSearch Dashboards to be ready..."
-          until curl -sSf http://localhost:5601; do
-            echo "Waiting for OpenSearch Dashboards to be ready..."
-            sleep 5
-          done
 
       - name: Fetch OpenSearch Dashboards logs for debugging
         run: docker logs opensearch-dashboards > opensearch-dashboards.log || true
