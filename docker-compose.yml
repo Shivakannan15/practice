@@ -10,6 +10,7 @@ services:
       - bootstrap.memory_lock=true
       - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
       - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Admin123 # Set a strong password here
       - "thread_pool.write.queue_size=500"
       - "thread_pool.search.queue_size=1000"
     ulimits:
